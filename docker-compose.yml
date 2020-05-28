@@ -1,0 +1,28 @@
+version: '2'
+
+services:
+  apinginx:
+    build: docker/nginx
+    restart: always
+    volumes:
+      - ./www:/var/www/html
+    ports:
+      - 3000:80
+    depends_on:
+      - apiphpfpm
+    networks:
+      - network-back12
+
+
+  apiphpfpm:
+    build: docker/phpfpm
+    restart: always
+    volumes:
+      - ./www:/var/www/html
+    networks:
+      - network-back12
+
+
+networks:
+    network-back12:
+        driver: bridge
