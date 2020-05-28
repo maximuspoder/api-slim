@@ -9,11 +9,11 @@ $app = new \Slim\App();
 $app->get('/phoenix/mine/projects', function ($request, $response, $args) {
     $id = $request->getParam('id') ? $request->getParam('id') : 100;
     $stock = $request->getParam('stock') ? $request->getParam('stock') : 100;
-    $available = $request->getParam('available') ? $request->getParam('available') : true;
+    $price = $request->getParam('price') ? $request->getParam('price') : 9.95;
     $data = [
         'creative_project_id' => intval($id),
         'stock' => intval($stock),
-        'options_with_stock' => boolval($available)
+        'price' => floatval($price)
     ];
     return $response
                 ->withHeader('Content-type', 'application/json')
