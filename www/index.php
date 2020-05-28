@@ -11,7 +11,7 @@ $app->get('/phoenix/mine/projects', function ($request, $response, $args) {
     $stock = $request->getParam('stock') ? $request->getParam('stock') : 100;
     $price = $request->getParam('price') ? $request->getParam('price') : 9.95;
     $data = [
-        'creative_project_id' => intval($id),
+        'creative_project_id' => $id,
         'stock' => intval($stock),
         'price' => floatval($price)
     ];
