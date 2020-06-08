@@ -37,4 +37,14 @@ $app->get('/phoenix/mine/project', function ($request, $response, $args) {
 });
 
 
+$app->get('/creative-project/', function($request, $response, $args){
+    $body = $response->getBody();
+    return $body->write('
+    
+    <h1>Creative Project</h1>'
+    );
+    
+ });
+
+
 $app->run();
