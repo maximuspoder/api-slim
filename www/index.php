@@ -38,7 +38,15 @@ $app->get('/phoenix/mine/project', function ($request, $response, $args) {
 
 
 $app->get('/creative-project/', function($request, $response, $args){
-    $response->write('<h1>Creative Project</h1>');
+    $html = "<h1>Welcome to My Creative Project</h1>";
+    $html .= "<p>Just a simulation how it's work with Phoenix</p>";
+    $html .= "<pre>";
+    $params = $request->getParams();
+    $params = json_encode($params);
+    $html .= $params."</pre>";
+
+    $response
+            ->write($html);
     return $response;    
  });
 
