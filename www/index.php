@@ -1,6 +1,8 @@
 <?php
 require 'vendor/autoload.php';
 
+use Slim\Views\PhpRenderer;
+
 $app = new \Slim\App();
 
 /**
@@ -38,17 +40,44 @@ $app->get('/phoenix/mine/project', function ($request, $response, $args) {
 
 
 $app->get('/creative-project/', function($request, $response, $args){
-    $html = "<h1>Welcome to My Creative Project</h1>";
-    $html .= "<p>Just a simulation how it's work with Phoenix</p>";
-    $html .= "<pre>";
-    $params = $request->getParams();
-    $params = json_encode($params);
-    $html .= $params."</pre>";
+    $renderer = new PhpRenderer('public/');
 
-    $response
-            ->write($html);
-    return $response;    
+    $params = $request->getParams();
+    $params = json_encode($params, JSON_PRETTY_PRINT);
+
+    $args['data'] = $params;
+    $args['quote_id'] = 4;
+    $args['sku'] = $request->getParam('sku');
+    return $renderer->render($response, "cart.php", $args);
  });
 
+
+
+ $app->get('/creative-project/add', function($request, $response, $args){
+    
+    $qty = $request->getParam('qty');
+    $quoteId = $request->getParam('quote_id');
+    $sku = $request->getParam('sku');
+
+    /** Params to add to cart */
+    $productData = [
+        'cart_item' => [
+            'sku' => $sku,
+            'qty' => $qty,
+            'extension_attributes' => [
+                "creative_id" => 2,
+                "additional_data" => "Custom information for SKU ".$sku
+            ]
+        ]
+    ];
+    $ch = curl_init("https://dev.magento.digitalphoto.dev/rest/V1/phoenix/carts/mine/items");
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($productData));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer a9uwug8sslqbon2wtm2099xzxof7g4ln"));
+    
+    $result = curl_exec($ch);
+    return $result;
+ });
 
 $app->run();
