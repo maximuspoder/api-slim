@@ -46,7 +46,7 @@ $app->get('/creative-project/', function($request, $response, $args){
     $params = json_encode($params, JSON_PRETTY_PRINT);
 
     $args['data'] = $params;
-    $args['quote_id'] = 4;
+    $args['quote_id'] = $request->getParam('quoteId');
     $args['sku'] = $request->getParam('sku');
     return $renderer->render($response, "cart.php", $args);
  });
@@ -62,6 +62,7 @@ $app->get('/creative-project/', function($request, $response, $args){
     /** Params to add to cart */
     $productData = [
         'cart_item' => [
+            'quote_id' => $quoteId,
             'sku' => $sku,
             'qty' => $qty,
             'extension_attributes' => [
