@@ -54,7 +54,7 @@
                 contentType: "application/json; charset=utf-8",
                 data: jsonData,
                 success: function(data) { window.location.href = 'https://dev.magento.digitalphoto.dev/checkout/cart/' },
-                error: function(data) {console.log(data)}
+                error: function(data) {window.location.href = 'https://dev.magento.digitalphoto.dev/checkout/cart/'}
             });
         })
     });
