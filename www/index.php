@@ -81,4 +81,14 @@ $app->get('/creative-project/', function($request, $response, $args){
     return $result;
  });
 
+
+
+
+$app->get('/swagger', function($request, $response, $args){
+    $renderer = new PhpRenderer('public/');
+
+    return $renderer->render($response, "swagger/index.php", $args);
+});
+
+
 $app->run();

@@ -1,0 +1,327 @@
+{
+    "swagger": "2.0",
+    "info": {
+      "version": "1.0.0",
+      "title": "Photoweb API",
+      "contact": {}
+    },
+    "host": "dev.magento.digitalphoto.dev",
+    "basePath": "/rest",
+    "securityDefinitions": {},
+    "schemes": [
+      "https"
+    ],
+    "consumes": [
+      "application/json"
+    ],
+    "produces": [
+      "application/json"
+    ],
+    "paths": {
+      "/V1/phoenix/auth": {
+        "post": {
+          "summary": "Authenticate",
+          "tags": [
+            "Authenticate"
+          ],
+          "operationId": "Authenticate",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/AuthenticateRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {}
+            }
+          }
+        }
+      },
+      "/V1/customers": {
+        "post": {
+          "summary": "Create Customer",
+          "tags": [
+            "Authenticate"
+          ],
+          "operationId": "CreateCustomer",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/CreateCustomerRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {}
+            }
+          }
+        }
+      },
+      "/default/V1/carts/mine": {
+        "post": {
+          "summary": "Cart - Create",
+          "tags": [
+            "Cart"
+          ],
+          "operationId": "Cart-Create",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {}
+            }
+          }
+        }
+      },
+      "/V1/phoenix/carts/mine/items": {
+        "post": {
+          "summary": "Cart - Add Item",
+          "tags": [
+            "Cart"
+          ],
+          "operationId": "Cart-AddItem",
+          "deprecated": false,
+          "produces": [
+            "application/json"
+          ],
+          "parameters": [
+            {
+              "name": "Authorization",
+              "in": "header",
+              "required": false,
+              "default": "Bearer {token}",
+              "type": "string"
+            },
+            {
+              "name": "Body",
+              "in": "body",
+              "required": true,
+              "description": "",
+              "schema": {
+                "$ref": "#/definitions/Cart-AddItemRequest"
+              }
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "",
+              "headers": {}
+            }
+          }
+        }
+      }
+    },
+    "definitions": {
+      "AuthenticateRequest": {
+        "title": "AuthenticateRequest",
+        "example": {
+          "username": "customer1@email.com",
+          "password": "test@123"
+        },
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "username",
+          "password"
+        ]
+      },
+      "CreateCustomerRequest": {
+        "title": "CreateCustomerRequest",
+        "example": {
+          "customer": {
+            "email": "customer1@email.com",
+            "firstname": "Fernando",
+            "lastname": "Alves",
+            "addresses": []
+          },
+          "password": "test@123"
+        },
+        "type": "object",
+        "properties": {
+          "customer": {
+            "$ref": "#/definitions/Customer"
+          },
+          "password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "customer",
+          "password"
+        ]
+      },
+      "Customer": {
+        "title": "Customer",
+        "example": {
+          "email": "customer1@email.com",
+          "firstname": "Fernando",
+          "lastname": "Alves",
+          "addresses": []
+        },
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "firstname": {
+            "type": "string"
+          },
+          "lastname": {
+            "type": "string"
+          },
+          "addresses": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "email",
+          "firstname",
+          "lastname",
+          "addresses"
+        ]
+      },
+      "Cart-AddItemRequest": {
+        "title": "Cart-AddItemRequest",
+        "example": {
+          "cartItem": {
+            "sku": "#REF1",
+            "quote_id": "{{QUOTE_ID}}",
+            "qty": 1,
+            "extension_attributes": {
+              "creative_id": 1,
+              "additional_data": "WORKING INFO"
+            }
+          }
+        },
+        "type": "object",
+        "properties": {
+          "cartItem": {
+            "$ref": "#/definitions/CartItem"
+          }
+        },
+        "required": [
+          "cartItem"
+        ]
+      },
+      "CartItem": {
+        "title": "CartItem",
+        "example": {
+          "sku": "#REF1",
+          "quote_id": "{{QUOTE_ID}}",
+          "qty": 1,
+          "extension_attributes": {
+            "creative_id": 1,
+            "additional_data": "WORKING INFO"
+          }
+        },
+        "type": "object",
+        "properties": {
+          "sku": {
+            "type": "string"
+          },
+          "quote_id": {
+            "type": "string"
+          },
+          "qty": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "extension_attributes": {
+            "$ref": "#/definitions/ExtensionAttributes"
+          }
+        },
+        "required": [
+          "sku",
+          "quote_id",
+          "qty",
+          "extension_attributes"
+        ]
+      },
+      "ExtensionAttributes": {
+        "title": "ExtensionAttributes",
+        "example": {
+          "creative_id": 1,
+          "additional_data": "WORKING INFO"
+        },
+        "type": "object",
+        "properties": {
+          "creative_id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "additional_data": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "creative_id",
+          "additional_data"
+        ]
+      }
+    },
+    "tags": [
+      {
+        "name": "Authenticate"
+      },
+      {
+        "name": "Cart"
+      }
+    ]
+  }
