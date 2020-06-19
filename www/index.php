@@ -18,7 +18,7 @@ $app->get('/phoenix/mine/project', function ($request, $response, $args) {
                 ->withJson(["data" => []]);
     }
     
-    $stock = $request->getParam('stock') ? $request->getParam('stock') : 100;
+    $stock = $request->getParam('stock') ? $request->getParam('stock') : 1;
     $price = $request->getParam('price') ? $request->getParam('price') : 9.95;
     if ($id == '000C-L') {
         $stock = 0;
