@@ -5,6 +5,21 @@ use Slim\Views\PhpRenderer;
 
 $app = new \Slim\App();
 
+// Get request headers as associative array
+
+$app->get('/', function ($request, $response, $args) {
+    echo "Hello WOrld!";
+    return;
+});
+
+$app->get('/test', function ($request, $response, $args) {
+    $headers = $response->getHeaders();
+    foreach ($headers as $name => $values) {
+        echo $name . ": " . implode(", ", $values);
+    }
+    return;
+});
+
 /**
  * Simulate request into phoenix to get my creative project
  */
@@ -71,7 +86,7 @@ $app->get('/creative-project/', function($request, $response, $args){
             ]
         ]
     ];
-    $ch = curl_init("https://dev.magento.digitalphoto.dev/rest/V1/phoenix/carts/mine/items");
+    $ch = curl_init("https://stg.magento.digitalphoto.dev/rest/V1/phoenix/carts/mine/items");
     curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
     curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($productData));
