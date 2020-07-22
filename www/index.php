@@ -54,7 +54,24 @@ $app->get('/phoenix/mine/project', function ($request, $response, $args) {
 });
 
 
-$app->get('/creative-project/', function($request, $response, $args){
+$app->get('/creative-project/dev/', function($request, $response, $args){
+    $renderer = new PhpRenderer('public/');
+
+    $params = $request->getParams();
+    $params = json_encode($params, JSON_PRETTY_PRINT);
+
+    $args['data'] = $params;
+    $args['quote_id'] = $request->getParam('quoteId');
+    $args['sku'] = $request->getParam('sku');
+    $args['env'] = 'dev';
+    $args['callback'] = 'https://dev.magento.digitalphoto.dev/checkout/cart/';
+    $args['path'] = '/creative-project/dev/add';
+
+    return $renderer->render($response, "cart.php", $args);
+ });
+
+
+ $app->get('/creative-project/stg/', function($request, $response, $args){
     $renderer = new PhpRenderer('public/');
 
     $params = $request->getParams();
@@ -66,12 +83,6 @@ $app->get('/creative-project/', function($request, $response, $args){
     $args['env'] = 'stg';
     $args['callback'] = 'https://stg.magento.digitalphoto.dev/checkout/cart/';
     $args['path'] = '/creative-project/stg/add';
-    $referer = $request->getParam('p');
-    if ($referer == 'dev') {
-        $args['env'] = 'dev';
-        $args['callback'] = 'https://dev.magento.digitalphoto.dev/checkout/cart/';
-        $args['path'] = '/creative-project/dev/add';
-    }
 
     return $renderer->render($response, "cart.php", $args);
  });
