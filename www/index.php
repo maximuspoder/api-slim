@@ -66,8 +66,8 @@ $app->get('/creative-project/', function($request, $response, $args){
     $args['env'] = 'stg';
     $args['callback'] = 'https://stg.magento.digitalphoto.dev/checkout/cart/';
     $args['path'] = '/creative-project/stg/add';
-    $referer = $_SERVER['HTTP_REFERER'] ?? null;
-    if (strstr($referer, 'dev')) {
+    $referer = $request->getParam('p');
+    if ($referer == 'dev') {
         $args['env'] = 'dev';
         $args['callback'] = 'https://dev.magento.digitalphoto.dev/checkout/cart/';
         $args['path'] = '/creative-project/dev/add';
