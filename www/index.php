@@ -34,7 +34,7 @@ $app->get('/phoenix/mine/project', function ($request, $response, $args) {
     }
     
     $stock = $request->getParam('stock') ? $request->getParam('stock') : 1;
-    $price = $request->getParam('price') ? $request->getParam('price') : 9.95;
+    $price = $request->getParam('price') ? $request->getParam('price') : 50.95;
     if ($id == '000C-L') {
         $stock = 0;
         $active = false;
