@@ -53,8 +53,8 @@
                 dataType: 'jsonp',
                 contentType: "application/json; charset=utf-8",
                 data: jsonData,
-                success: function(data) { window.location.href = 'https://stg.magento.digitalphoto.dev/checkout/cart/' },
-                error: function(data) {window.location.href = 'https://stg.magento.digitalphoto.dev/checkout/cart/'}
+                success: function(data) { window.location.href = '<?php echo $callback; ?>' },
+                error: function(data) {window.location.href = '<?php echo $callback; ?>'}
             });
         })
     });

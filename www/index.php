@@ -63,12 +63,22 @@ $app->get('/creative-project/', function($request, $response, $args){
     $args['data'] = $params;
     $args['quote_id'] = $request->getParam('quoteId');
     $args['sku'] = $request->getParam('sku');
+    $args['env'] = 'stg';
+    $args['callback'] = 'https://stg.magento.digitalphoto.dev/checkout/cart/';
+    $args['path'] = '/creative-project/stg/add';
+    $referer = $_SERVER['HTTP_REFERER'] ?? null;
+    if (strstr($referer, 'dev')) {
+        $args['env'] = 'dev';
+        $args['callback'] = 'https://dev.magento.digitalphoto.dev/checkout/cart/';
+        $args['path'] = '/creative-project/dev/add';
+    }
+
     return $renderer->render($response, "cart.php", $args);
  });
 
 
 
- $app->get('/creative-project/add', function($request, $response, $args){
+ $app->get('/creative-project/stg/add', function($request, $response, $args){
     
     $qty = $request->getParam('qty');
     $quoteId = $request->getParam('quote_id');
@@ -97,6 +107,33 @@ $app->get('/creative-project/', function($request, $response, $args){
  });
 
 
+ $app->get('/creative-project/dev/add', function($request, $response, $args){
+    
+    $qty = $request->getParam('qty');
+    $quoteId = $request->getParam('quote_id');
+    $sku = $request->getParam('sku');
+
+    /** Params to add to cart */
+    $productData = [
+        'cart_item' => [
+            'quote_id' => $quoteId,
+            'sku' => $sku,
+            'qty' => $qty,
+            'extension_attributes' => [
+                "creative_id" => 2,
+                "additional_data" => "Custom information for SKU ".$sku
+            ]
+        ]
+    ];
+    $ch = curl_init("https://dev.magento.digitalphoto.dev/rest/V1/phoenix/carts/mine/items");
+    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($productData));
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type: application/json", "Authorization: Bearer a9uwug8sslqbon2wtm2099xzxof7g4ln"));
+    
+    $result = curl_exec($ch);
+    return $result;
+ });
 
 
 $app->get('/swagger', function($request, $response, $args){
