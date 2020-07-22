@@ -48,7 +48,7 @@
                 "sku": $('#sku').val()
             }
             $.ajax({
-                url: "/creative-project/add",
+                url: "<?php echo $path; ?>",
                 type: 'GET',
                 dataType: 'jsonp',
                 contentType: "application/json; charset=utf-8",
